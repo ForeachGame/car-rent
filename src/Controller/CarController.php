@@ -38,22 +38,31 @@ class CarController extends ApiController
         UserRepository $userRepository
     )
     {
-        $request = $this->transformJsonBody($request);
+        try {
+            $request = $this->transformJsonBody($request);
 
-        if(!$request) {
-            throw new \Exception();
+            if(!$request) {
+                throw new \Exception();
+            }
+
+            $sort = $request->get('sort') ?? 'id';
+            $order = $request->get('order') ?? 'ASC';
+
+            $filter = [];
+            if($request->get('owner')) $filter['owner'] = $userRepository->find($request->get('owner'));
+            if($request->get('car_type')) $filter['car_type'] = $carTypeRepository->find($request->get('car_type'));
+
+            $data = $carRepository->findBy($filter,[$sort => $order]);
+
+            return $this->response($data);
+        } catch (\Exception $exception) {
+            $data = [
+                "status"=>422,
+                "errors"=>"Data not valid"
+            ];
+
+            return $this->response($data, 422);
         }
-
-        $sort = $request->get('sort') ?? 'id';
-        $order = $request->get('order') ?? 'ASC';
-
-        $filter = [];
-        if($request->get('owner')) $filter['owner'] = $userRepository->find($request->get('owner'));
-        if($request->get('car_type')) $filter['car_type'] = $carTypeRepository->find($request->get('car_type'));
-
-        $data = $carRepository->findBy($filter,[$sort => $order]);
-
-        return $this->response($data);
     }
 
     /**
