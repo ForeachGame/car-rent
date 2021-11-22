@@ -53,24 +53,24 @@ class Rent implements \JsonSerializable
         return $this->id;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTime
     {
         return $this->start_date;
     }
 
-    public function setStartDate(\DateTimeInterface $start_date): self
+    public function setStartDate(\DateTime $start_date): self
     {
         $this->start_date = $start_date;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTime
     {
         return $this->end_date;
     }
 
-    public function setEndDate(\DateTimeInterface $end_date): self
+    public function setEndDate(\DateTime $end_date): self
     {
         $this->end_date = $end_date;
 
@@ -81,10 +81,10 @@ class Rent implements \JsonSerializable
     {
         $interval = $this->getStartDate()->diff($this->getEndDate());
 
-        if($interval->days > 1) {
-            return $interval->days * $this->price[1];
+        if($interval->h > 24) {
+            return $interval->h * $this->price[1];
         }
-        return $interval->days * $this->price[0];
+        return $interval->h * $this->price[0];
     }
 
     public function getOwnerCost()
