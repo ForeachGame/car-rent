@@ -95,6 +95,7 @@ class UserController extends ApiController
      * @param UserGroupRepository $userGroupRepository
      * @param $id
      * @return JsonResponse
+     * @throws \Exception
      * @Route("/update/{id}", name="user_update", methods={"PUT"})
      */
     public function updateUser(
@@ -157,8 +158,10 @@ class UserController extends ApiController
 
     /**
      * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
      * @param $id
      * @return JsonResponse
+     * @throws \Exception
      * @Route("/delete/{id}", name="user_delete", methods={"DELETE"})
      */
     public function removeUser(EntityManagerInterface $entityManager, UserRepository $userRepository, $id)
