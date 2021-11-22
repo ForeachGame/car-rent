@@ -141,11 +141,12 @@ class AppFixtures extends Fixture
 
 
         $date = new \DateTime();
+        $date2 = new \DateTime();
         $rent_1 = new Rent;
         $rent_1->setCar($car_1);
         $rent_1->setClient($client_2);
         $rent_1->setStartDate($date->setDate(2021,06,06));
-        $rent_1->setEndDate($date->setDate(2021,06,12));
+        $rent_1->setEndDate($date2->setDate(2021,06,12));
         $rent_1->setCost($rent_1->calcCost());
         $manager->persist($rent_1);
 

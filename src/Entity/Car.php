@@ -149,6 +149,9 @@ class Car implements \JsonSerializable
         return [
             "id" => $this->getId(),
             "title" => $this->getTitle(),
+            "active" => $this->getActive(),
+            "type" => $this->getCarType(),
+            "owner" => $this->getOwner()
         ];
     }
 }

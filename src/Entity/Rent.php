@@ -7,8 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=RentRepository::class)
+ * @ORM\Table(name="rent")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Rent
+class Rent implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -79,10 +81,15 @@ class Rent
     {
         $interval = $this->getStartDate()->diff($this->getEndDate());
 
-        if($interval->d > 1) {
-            return $interval->d * $this->price[1];
+        if($interval->days > 1) {
+            return $interval->days * $this->price[1];
         }
-        return $interval->d * $this->price[0];
+        return $interval->days * $this->price[0];
+    }
+
+    public function getOwnerCost()
+    {
+        return ($this->getCost() / 100) * 75;
     }
 
     public function getCost(): ?float
@@ -119,5 +126,27 @@ class Rent
         $this->client = $client;
 
         return $this;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "start_date" => $this->getStartDate(),
+            "end_date" =>$this->getEndDate(),
+            "car" => $this->getCar(),
+            "client" => $this->getClient(),
+            "owner" => $this->getCar()->getOwner(),
+            "cost" => $this->getCost(),
+            "owner_cost" =>$this->getOwnerCost()
+
+        ];
     }
 }

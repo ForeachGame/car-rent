@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=UserGroupRepository::class)
+ * @ORM\Table(name="user_group")
+ * @ORM\HasLifecycleCallbacks()
  */
-class UserGroup
+class UserGroup implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -32,6 +34,11 @@ class UserGroup
     public function __construct()
     {
         $this->users = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getTitle(): ?string
@@ -76,5 +83,19 @@ class UserGroup
         return $this;
     }
 
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "title" => $this->getTitle(),
+        ];
+    }
 
 }

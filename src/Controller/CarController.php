@@ -21,11 +21,16 @@ class CarController extends ApiController
     /**
      * @param CarRepository $carRepository
      * @return JsonResponse
-     * @Route("/list", name="/list", methods={"post"})
+     * @Route("/list", name="car_list", methods={"post"})
      */
-    public function getCars(CarRepository $carRepository){
-        $data = $carRepository->getCarID();
+    public function getCars(CarRepository $carRepository)
+    {
+        $data = $carRepository->findAll();
         return $this->response($data);
     }
+    //todo Добавить автомобиль
+    //todo Отредактировать автомобиль
+    //todo Удалить автомобиль
+    //todo Список автомобилей с фильтрами
 
 }

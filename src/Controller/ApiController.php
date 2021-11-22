@@ -24,4 +24,16 @@ class ApiController extends AbstractController
     {
         return new JsonResponse($data, $status, $headers);
     }
+    protected function transformJsonBody(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if ($data === null) {
+            return $request;
+        }
+
+        $request->request->replace($data);
+
+        return $request;
+    }
 }
