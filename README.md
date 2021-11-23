@@ -17,6 +17,9 @@
 login: admin <br />
 password: admin
 
+---
+Чтобы API работало без авторизации, в файле /config/packages/security.yaml перед строкой "- { path: ^/api, roles: ROLE_USER }" добавить "#"
+
 ***
 # API
 ## User api
