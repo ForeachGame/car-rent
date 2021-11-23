@@ -67,7 +67,6 @@ class RentController extends ApiController
         }
     }
 
-    //todo Добавить аренду
     /**
      * @param Request $request
      * @param EntityManagerInterface $entityManager
@@ -126,5 +125,4 @@ class RentController extends ApiController
         }
 
     }
-    //todo Список аренд с фильтрами
 }
