@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,6 +21,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CarController extends ApiController
 {
+
+    /**
+     * @Route("/index", name="car")
+     */
+    public function index(): Response
+    {
+        return $this->render('car/index.html.twig', [
+            'controller_name' => 'CarController',
+        ]);
+    }
     /**
      * @param Request $request
      * @param EntityManagerInterface $entityManager
